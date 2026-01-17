@@ -16,7 +16,7 @@ jobs:
       - run: npx playwright install chromium --with-deps
       - run: node scraper.js
         env:
-          TARGET_URL: 'https://news.ycombinator.com' # Your target
+          TARGET_URL: 'https://yellowdinosaur-rgb.github.io/bountybug1/test5.html' # Your target
       - name: Commit and Push Data
         run: |
           git config user.name "Scraper Bot"
