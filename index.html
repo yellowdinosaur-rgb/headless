@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Headless Fetcher</title>
+    <style>
+        img { max-width: 200px; margin: 10px; border: 1px solid #ccc; }
+        .container { font-family: sans-serif; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fetched Content</h1>
+        <div id="content">Loading latest data...</div>
+    </div>
+
+    <script>
+        fetch('./data.json')
+            .then(res => res.json())
+            .then(data => {
+                let html = `<h2>${data.title}</h2><p>${data.text}</p>`;
+                html += '<h3>Images</h3>';
+                data.images.forEach(src => html += `<img src="${src}">`);
+                document.getElementById('content').innerHTML = html;
+            });
+    </script>
+</body>
+</html>
