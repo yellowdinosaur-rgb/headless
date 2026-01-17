@@ -1,0 +1,26 @@
+name: Run Headless Scraper
+on:
+  workflow_dispatch: # Allows manual trigger
+  schedule:
+    - cron: '0 0 * * *' # Runs daily
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install playwright
+      - run: npx playwright install chromium --with-deps
+      - run: node scraper.js
+        env:
+          TARGET_URL: 'https://news.ycombinator.com' # Your target
+      - name: Commit and Push Data
+        run: |
+          git config user.name "Scraper Bot"
+          git config user.email "bot@github.com"
+          git add data.json
+          git commit -m "Update scraped data" || exit 0
+          git push
